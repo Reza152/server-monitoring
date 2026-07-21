@@ -1,22 +1,33 @@
-# Linux Server Monitoring 
+# Linux Server Monitoring & Infrastructure Dashboard
+
+Project monitoring infrastructure yang berkembang dari Bash Script
+menjadi dashboard monitoring berbasis Python Flask.
+
+---
+
+# PART 1 - Linux Server Monitoring
 
 ## Deskripsi
 
-project ini merupakan monitorting server sederhana menggunakan Bash Script pada linux. 
+Project ini merupakan monitoring server sederhana menggunakan Bash Script
+pada Linux.
 
-Script akan melakukan monitoring:
+Script melakukan monitoring:
 
--CPU Usage
--RAM Usage
--DISK Usage
+- CPU Usage
+- RAM Usage
+- Disk Usage
 
-apa bila terjadi perubahan status dari HEALTHY menjadi WARNING atau WARNING menjadi HEALTHY maka sistem akan mengirim notifikasi ke DISCORD menggunakan WEBHOOK.
+Apabila terjadi perubahan status dari HEALTHY menjadi WARNING atau
+WARNING menjadi HEALTHY, sistem akan mengirim notifikasi ke Discord
+menggunakan Webhook.
 
-Monitoring dijalankan otomatis menggunakan cron dan log akan dikelola menggunakan Logrotate
+Monitoring dijalankan otomatis menggunakan Cron dan log dikelola
+menggunakan Logrotate.
 
---
+---
 
-## Fitur
+## Fitur Bash Monitoring
 
 ✅ CPU Monitoring
 
@@ -38,59 +49,111 @@ Monitoring dijalankan otomatis menggunakan cron dan log akan dikelola menggunaka
 
 ---
 
+# PART 2 - Server Monitoring Dashboard
+
+## Deskripsi
+
+Project kemudian dikembangkan menjadi dashboard monitoring berbasis
+Python dan Flask.
+
+Dashboard digunakan untuk memonitor:
+
+- Ubuntu Server
+- Proxmox Host
+- Docker Containers
+
+---
+
+## Fitur Ubuntu Server
+
+- CPU usage
+- RAM usage
+- Disk usage
+- Server status
+- Hostname
+- IP Address
+- Operating System
+- Uptime
+
+---
+
+## Fitur Proxmox
+
+- Proxmox status
+- CPU usage
+- RAM usage
+- Disk usage
+- Hostname
+- Uptime
+
+---
+
+## Fitur Docker
+
+- Total container
+- Running container
+- Stopped container
+- Created container
+- Container health status
+- Docker image
+- Port information
+- Container ID
+- CPU usage
+- Memory usage
+
+---
+
+## Docker Container Management
+
+Dashboard dapat melakukan:
+
+- Start container
+- Stop container
+- Restart container
+
+---
+
 ## Teknologi
 
 - Ubuntu Server
 - Bash Script
-- Cron
-- Logrotate
-- Discord Webhook
+- Python
+- Flask
+- JavaScript
+- HTML5
+- CSS3
+- Chart.js
+- Docker
+- Proxmox
+- Git
+- GitHub
 
 ---
 
-## Struktur Project
+# Project Architecture
 
-```
-server-monitoring/
-│
-├── health-check.sh
-├── .env
-├── status.txt
-├── health-check.log
-├── README.md
-└── logrotate.conf
-```
-
----
-
-## Cara Menjalankan
-
-Jalankan manual
-
-```bash
-./health-check.sh
-```
-
-Menjalankan otomatis
-
-```bash
-crontab -e
-```
-
-Tambahkan
-
-```bash
-* * * * * /home/reza/projects/server-monitoring/health-check.sh
-```
-
----
-
-## Screenshot
-
-Tambahkan screenshot terminal dan Discord Notification.
-
----
-
-## Author
-
-Reza Arishadilah 
+```text
+Windows Laptop
+       │
+       │ Web Browser
+       ▼
+┌─────────────────────────┐
+│   Flask Dashboard        │
+│   Port 5001              │
+└────────────┬────────────┘
+             │ HTTP API
+             ▼
+┌─────────────────────────┐
+│ Ubuntu Server            │
+│ 192.168.100.90           │
+│                         │
+│ Flask Monitoring Agent  │
+│ Port 5000               │
+└────────────┬────────────┘
+             │
+      ┌──────┴──────┐
+      ▼             ▼
+┌───────────┐  ┌──────────────┐
+│ Proxmox    │  │ Docker       │
+│ Host       │  │ Containers   │
+└───────────┘  └──────────────┘
