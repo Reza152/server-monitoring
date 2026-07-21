@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Server Monitoring Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+
+            <h1>🚀 Server Monitoring Dashboard</h1>
+
+            <p>Ubuntu • Proxmox • Flask • Python</p>
+
+        </header>
+
+
+        <section class="servers">
+
+
+            <!-- UBUNTU SERVER -->
+
+            <div class="card">
+
+                <h2>🐧 Ubuntu Server</h2>
+
+                <p>
+                    Status :
+                    <span id="status">-</span>
+                </p>
+
+                <p>
+                    IP Address :
+                    <span id="ip">-</span>
+                </p>
+
+                <p>
+                    Hostname :
+                    <span id="hostname">-</span>
+                </p>
+
+                <p>
+                    CPU :
+                    <span id="cpu">-</span>
+                </p>
+
+                <div class="bar">
+                    <div id="cpu-bar" class="fill"></div>
+                </div>
+
+                <p>
+                    RAM :
+                    <span id="memory">-</span>
+                </p>
+
+                <div class="bar">
+                    <div id="memory-bar" class="fill"></div>
+                </div>
+
+                <p>
+                    DISK :
+                    <span id="disk">-</span>
+                </p>
+
+                <div class="bar">
+                    <div id="disk-bar" class="fill"></div>
+                </div>
+
+                <div class="Server-info">
+                    <p>
+                        🐧 OS :
+                        <span id="os">-</span>
+                    </p>
+                    <p>
+                        ⏱ Uptime :
+                        <span id="uptime">-</span>
+                    </p>
+                </div>
+
+            </div>
+
+
+ <!-- PROXMOX HOST -->
+
+<div class="card">
+
+    <h2>🖥 Proxmox Host</h2>
+
+    <p>
+        Status :
+        <span id="proxmox-status">-</span>
+    </p>
+
+    <p>
+        Hostname :
+        <span id="proxmox-hostname">-</span>
+    </p>
+
+    <p>
+        CPU :
+        <span id="proxmox-cpu">-</span>
+    </p>
+
+    <div class="bar">
+        <div id="proxmox-cpu-bar" class="fill"></div>
+    </div>
+
+    <p>
+        RAM :
+        <span id="proxmox-memory">-</span>
+    </p>
+
+    <div class="bar">
+        <div id="proxmox-memory-bar" class="fill"></div>
+    </div>
+
+    <p>
+        DISK :
+        <span id="proxmox-disk">-</span>
+    </p>
+
+    <div class="bar">
+        <div id="proxmox-disk-bar" class="fill"></div>
+    </div>
+
+    <div class="server-info">
+
+        <p>
+            ⏱ Uptime :
+            <span id="proxmox-uptime">-</span>
+        </p>
+
+    </div>
+
+</div>
+
+
+            <!-- DOCKER CONTAINERS -->
+
+            <div class="card">
+
+                <h2>🐳 Docker Containers</h2>
+
+
+                <!-- DOCKER SUMMARY -->
+
+                <div class="docker-summary">
+
+                    <div>
+                        <strong id="docker-total">0</strong>
+                        <span>Total</span>
+                    </div>
+
+                    <div>
+                        <strong id="docker-running">0</strong>
+                        <span>Running</span>
+                    </div>
+
+                    <div>
+                        <strong id="docker-stopped">0</strong>
+                        <span>Stopped</span>
+                    </div>
+
+                    <div>
+                        <strong id="docker-created">0</strong>
+                        <span>Created</span>
+                    </div>
+
+                </div>
+
+
+                <!-- DOCKER FILTERS -->
+
+                <div class="docker-filters">
+
+                    <button onclick="filterDocker('all')">
+                        ALL
+                    </button>
+
+                    <button onclick="filterDocker('running')">
+                        RUNNING
+                    </button>
+
+                    <button onclick="filterDocker('stopped')">
+                        STOPPED
+                    </button>
+
+                    <button onclick="filterDocker('created')">
+                        CREATED
+                    </button>
+
+                </div>
+
+
+                <!-- CONTAINER LIST -->
+
+                <div id="docker-container-list">
+
+                    Loading containers...
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CHARTS -->
+
+        <section class="charts">
+
+            <div class="chart-card">
+
+                <h3>🔥 CPU Usage</h3>
+
+                <canvas id="cpuChart"></canvas>
+
+            </div>
+
+
+            <div class="chart-card">
+
+                <h3>🧠 RAM Usage</h3>
+
+                <canvas id="ramChart"></canvas>
+
+            </div>
+
+
+            <div class="chart-card">
+
+                <h3>💾 Disk Usage</h3>
+
+                <canvas id="diskChart"></canvas>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            <p>
+
+                🕒 Last Update :
+
+                <span id="last-update">
+                    -
+                </span>
+
+            </p>
+
+            <p id="alert">
+                -
+            </p>
+
+        </footer>
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/api.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>
