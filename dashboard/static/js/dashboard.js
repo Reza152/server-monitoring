@@ -778,15 +778,39 @@ function ambilData() {
         "http://192.168.100.90:5000/metrics"
     )
 
-        .then(response =>
-            response.json()
-        )
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Agent mengembalikan error"
+                );
+
+            }
+
+            return response.json();
+
+        })
 
         .then(data => {
 
             updateUbuntuDashboard(
                 data
             );
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Agent offline:",
+                error
+            );
+
+            document.getElementById(
+                "status"
+            ).innerText =
+                "🔴 Agent Offline";
 
         });
 
