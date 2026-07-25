@@ -37,3 +37,25 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t server-monitoring-dashboard .
+
+      - name: Start agent container
+        run: |
+          docker run -d \
+            --name server-monitoring-agent-test \
+            -p 5000:5000 \
+            server-monitoring-dashboard \
+            python app.py
+
+      - name: Wait for agent
+        run: |
+          sleep 10
+
+      - name: Test metrics endpoint
+        run: |
+          curl --fail http://localhost:5000/metrics
+
+      - name: Stop test container
+        if: always()
+        run: |
+          docker stop server-monitoring-agent-test || true
+          docker rm server-monitoring-agent-test || true
