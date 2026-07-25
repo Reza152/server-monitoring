@@ -83,3 +83,16 @@ deploy:
        ssh -o StrictHostKeyChecking=no \
        ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
        "echo 'SSH Login Success'"
+   - name: Deploy to Ubuntu Server
+     run: |
+       ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+
+       cd ~/projects/server-monitoring
+
+       git pull origin main
+
+       docker compose build
+
+       docker compose up -d
+
+       EOF
