@@ -10,8 +10,8 @@ on:
       - main
 
 jobs:
-  test:
 
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -61,38 +61,42 @@ jobs:
           docker rm server-monitoring-agent-test || true
 
 
-deploy:
-  needs: test
-  runs-on: ubuntu-latest
-  if: github.ref == 'refs/heads/main'
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
 
-  steps:
-   - name: Checkout repository
-     uses: actions/checkout@v4
+    if: github.ref == 'refs/heads/main'
 
-   - name: Setup SSH
-     run: |
-       mkdir -p ~/.ssh
+    steps:
 
-       echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-       chmod 600 ~/.ssh/id_ed25519
-       ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-   - name: Test SSH Connection
-     run: |
-       ssh -o StrictHostKeyChecking=no \
-       ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
-       "echo 'SSH Login Success'"
-   - name: Deploy to Ubuntu Server
-     run: |
-       ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
 
-       cd ~/projects/server-monitoring
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
 
-       git pull origin main
+          chmod 600 ~/.ssh/id_ed25519
 
-       docker compose build
+          ssh-keyscan -H "${{ secrets.SERVER_HOST }}" >> ~/.ssh/known_hosts
 
-       docker compose up -d
+      - name: Test SSH Connection
+        run: |
+          ssh "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}" \
+          "echo 'SSH Login Success'"
 
-       EOF
+      - name: Deploy to Ubuntu Server
+        run: |
+          ssh "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}" << 'EOF'
+
+          cd ~/projects/server-monitoring
+
+          git pull origin main
+
+          docker compose build
+
+          docker compose up -d
+
+          EOF
