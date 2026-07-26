@@ -29,7 +29,6 @@ function updateUbuntuDashboard(data) {
     document.getElementById("status").innerText =
         data.status;
 
-
     document.getElementById("ip").innerText =
         data.ip;
 
@@ -423,7 +422,7 @@ function tampilkanDockerContainers() {
     semuaContainers.forEach(container => {
 
         if (
-            container.status.startsWith("Up")
+            container.status === "running"
         ) {
 
             running++;
@@ -431,7 +430,7 @@ function tampilkanDockerContainers() {
         }
 
         else if (
-            container.status.startsWith("Exited")
+            container.status === "exited"
         ) {
 
             stopped++;
@@ -439,7 +438,7 @@ function tampilkanDockerContainers() {
         }
 
         else if (
-            container.status.startsWith("Created")
+            container.status === "created"
         ) {
 
             created++;
@@ -475,7 +474,7 @@ function tampilkanDockerContainers() {
 
 
     // ========================================
-    // FILTER CONTAINER
+    // FILTER DOCKER
     // ========================================
 
     let containers =
@@ -493,8 +492,7 @@ function tampilkanDockerContainers() {
                     filterAktif === "running"
                 ) {
 
-                    return container.status
-                        .startsWith("Up");
+                    return container.status === "running";
 
                 }
 
@@ -503,8 +501,7 @@ function tampilkanDockerContainers() {
                     filterAktif === "stopped"
                 ) {
 
-                    return container.status
-                        .startsWith("Exited");
+                    return container.status === "exited";
 
                 }
 
@@ -513,8 +510,7 @@ function tampilkanDockerContainers() {
                     filterAktif === "created"
                 ) {
 
-                    return container.status
-                        .startsWith("Created");
+                    return container.status === "created";
 
                 }
 
@@ -543,53 +539,7 @@ function tampilkanDockerContainers() {
 
 
         if (
-
-            container.status.startsWith("Up")
-
-            &&
-
-            container.status.includes(
-                "(healthy)"
-            )
-
-        ) {
-
-            statusClass =
-                "status-running";
-
-
-            statusText =
-                "HEALTHY";
-
-        }
-
-
-        else if (
-
-            container.status.startsWith("Up")
-
-            &&
-
-            container.status.includes(
-                "(unhealthy)"
-            )
-
-        ) {
-
-            statusClass =
-                "status-created";
-
-
-            statusText =
-                "UNHEALTHY";
-
-        }
-
-
-        else if (
-
-            container.status.startsWith("Up")
-
+            container.status === "running"
         ) {
 
             statusClass =
@@ -603,9 +553,7 @@ function tampilkanDockerContainers() {
 
 
         else if (
-
-            container.status.startsWith("Exited")
-
+            container.status === "exited"
         ) {
 
             statusClass =
@@ -619,9 +567,7 @@ function tampilkanDockerContainers() {
 
 
         else if (
-
-            container.status.startsWith("Created")
-
+            container.status === "created"
         ) {
 
             statusClass =
@@ -671,12 +617,20 @@ function tampilkanDockerContainers() {
             <div class="docker-details">
 
                 🖼 Image:
-                ${container.image || "N/A"}
+                ${
+                    container.image
+                    ? container.image.join(", ")
+                    : "N/A"
+                }
 
                 <br>
 
                 🔌 Ports:
-                ${container.ports || "Tidak ada"}
+                ${
+                    container.ports
+                    ? container.ports
+                    : "Tidak ada"
+                }
 
                 <br>
 
@@ -690,12 +644,20 @@ function tampilkanDockerContainers() {
                 <br>
 
                 🧠 CPU:
-                ${container.cpu || "N/A"}
+                ${
+                    container.cpu
+                    ? container.cpu
+                    : "N/A"
+                }
 
                 <br>
 
                 💾 Memory:
-                ${container.memory || "N/A"}
+                ${
+                    container.memory
+                    ? container.memory
+                    : "N/A"
+                }
 
             </div>
 
