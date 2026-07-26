@@ -530,54 +530,30 @@ function tampilkanDockerContainers() {
     containers.forEach(container => {
 
 
-        let statusClass =
-            "status-unknown";
+    let statusClass = "status-unknown";
+
+    let statusText = container.health || "UNKNOWN";
 
 
-        let statusText =
-            "UNKNOWN";
+    if (statusText === "NORMAL") {
+
+        statusClass = "status-running";
+
+    }
 
 
-        if (
-            container.status === "running"
-        ) {
+    else if (statusText === "WARNING") {
 
-            statusClass =
-                "status-running";
+        statusClass = "status-created";
 
-
-            statusText =
-                "RUNNING";
-
-        }
+    }
 
 
-        else if (
-            container.status === "exited"
-        ) {
+    else if (statusText === "CRITICAL") {
 
-            statusClass =
-                "status-stopped";
+        statusClass = "status-stopped";
 
-
-            statusText =
-                "STOPPED";
-
-        }
-
-
-        else if (
-            container.status === "created"
-        ) {
-
-            statusClass =
-                "status-created";
-
-
-            statusText =
-                "CREATED";
-
-        }
+    }
 
 
 
@@ -667,8 +643,8 @@ function tampilkanDockerContainers() {
             <div class="docker-actions">
 
                 ${
-                    statusText === "STOPPED" ||
-                    statusText === "CREATED"
+                    statusText === "CRITICAL" ||
+                    statusText === "WARNING"
 
                     ?
 
