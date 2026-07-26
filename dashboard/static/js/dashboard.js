@@ -645,8 +645,8 @@ function tampilkanDockerContainers() {
 
                 🧠 CPU:
                 ${
-                    container.cpu
-                    ? container.cpu
+                    container.cpu !== undefined
+                    ? container.cpu + "%"
                     : "N/A"
                 }
 
@@ -654,8 +654,10 @@ function tampilkanDockerContainers() {
 
                 💾 Memory:
                 ${
-                    container.memory
-                    ? container.memory
+                    container.memory !== undefined
+                    ? container.memory + " MB /"
+                        + container.memory_limit
+                        + " MB "
                     : "N/A"
                 }
 
