@@ -628,14 +628,17 @@ function tampilkanDockerContainers() {
 
                 <br>
 
-                💾 Memory:
-                ${
-                    container.memory !== undefined
-                    ? container.memory + " MB /"
-                        + container.memory_limit
-                        + " MB "
-                    : "N/A"
-                }
+            💾 Memory:
+            ${
+                container.memory !== undefined
+                ? container.memory + " MB / "
+                    + container.memory_limit
+                    + " MB "
+                    + "("
+                    + container.memory_percent
+                    + "%)"
+                : "N/A"
+            }
 
             </div>
 
