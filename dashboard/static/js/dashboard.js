@@ -589,6 +589,13 @@ function tampilkanDockerContainers() {
 
             </small>
 
+            <div class="health-reason">
+
+                💡 ${container.health_reason || "No information"}
+
+            </div>
+
+
 
             <div class="docker-details">
 
